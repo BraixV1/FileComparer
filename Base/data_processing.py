@@ -2,6 +2,7 @@ import csv
 import os.path
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
+from natsort import natsorted
 
 class Data: # Every line of the file will be made into data class which we use later
 
@@ -309,9 +310,9 @@ def magicWithMultipleFiles(names: list) -> list:
             row.extend(itemRow)
         row.append(positsion)
         excel.append(row)
-    excel.sort(key=lambda x: x[-1])
-    excel.insert(0, firstRow)
-    return excel
+    sorted_array = natsorted(excel, key=lambda x: x[-1])
+    sorted_array.insert(0, firstRow)
+    return sorted_array
 
 
 def getFileRow(names: list) -> list:
@@ -342,6 +343,7 @@ def WriteIntoFileFromMultiple(names: list, output: str) -> int:
     green = PatternFill(start_color="5bba75", end_color="5bba75", fill_type="solid")
     purple = PatternFill(start_color="c95da0", end_color="c95da0", fill_type="solid")
     matrix = magicWithMultipleFiles(names)
+    print(matrix)
 
     workbook = Workbook()
     sheet = workbook.active
